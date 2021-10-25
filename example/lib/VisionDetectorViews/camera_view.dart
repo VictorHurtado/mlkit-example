@@ -68,9 +68,7 @@ class _CameraViewState extends State<CameraView> {
               child: Icon(
                 _mode == ScreenMode.liveFeed
                     ? Icons.photo_library_outlined
-                    : (Platform.isIOS
-                        ? Icons.camera_alt_outlined
-                        : Icons.camera),
+                    : (Platform.isIOS ? Icons.camera_alt_outlined : Icons.camera),
               ),
             ),
           ),
@@ -90,9 +88,7 @@ class _CameraViewState extends State<CameraView> {
         width: 70.0,
         child: FloatingActionButton(
           child: Icon(
-            Platform.isIOS
-                ? Icons.flip_camera_ios_outlined
-                : Icons.flip_camera_android_outlined,
+            Platform.isIOS ? Icons.flip_camera_ios_outlined : Icons.flip_camera_android_outlined,
             size: 40,
           ),
           onPressed: _switchLiveCamera,
@@ -133,9 +129,7 @@ class _CameraViewState extends State<CameraView> {
                   _controller!.setZoomLevel(zoomLevel);
                 });
               },
-              divisions: (maxZoomLevel - 1).toInt() < 1
-                  ? null
-                  : (maxZoomLevel - 1).toInt(),
+              divisions: (maxZoomLevel - 1).toInt() < 1 ? null : (maxZoomLevel - 1).toInt(),
             ),
           )
         ],
@@ -242,6 +236,7 @@ class _CameraViewState extends State<CameraView> {
       _image = File(pickedFile.path);
     });
     final inputImage = InputImage.fromFilePath(pickedFile.path);
+
     widget.onImage(inputImage);
   }
 
@@ -252,17 +247,14 @@ class _CameraViewState extends State<CameraView> {
     }
     final bytes = allBytes.done().buffer.asUint8List();
 
-    final Size imageSize =
-        Size(image.width.toDouble(), image.height.toDouble());
+    final Size imageSize = Size(image.width.toDouble(), image.height.toDouble());
 
     final camera = cameras[_cameraIndex];
-    final imageRotation =
-        InputImageRotationMethods.fromRawValue(camera.sensorOrientation) ??
-            InputImageRotation.Rotation_0deg;
+    final imageRotation = InputImageRotationMethods.fromRawValue(camera.sensorOrientation) ??
+        InputImageRotation.Rotation_0deg;
 
     final inputImageFormat =
-        InputImageFormatMethods.fromRawValue(image.format.raw) ??
-            InputImageFormat.NV21;
+        InputImageFormatMethods.fromRawValue(image.format.raw) ?? InputImageFormat.NV21;
 
     final planeData = image.planes.map(
       (Plane plane) {
@@ -281,8 +273,7 @@ class _CameraViewState extends State<CameraView> {
       planeData: planeData,
     );
 
-    final inputImage =
-        InputImage.fromBytes(bytes: bytes, inputImageData: inputImageData);
+    final inputImage = InputImage.fromBytes(bytes: bytes, inputImageData: inputImageData);
 
     widget.onImage(inputImage);
   }

@@ -32,16 +32,16 @@ class _BarcodeScannerViewState extends State<BarcodeScannerView> {
   }
 
   Future<void> processImage(InputImage inputImage) async {
+    print("entree");
     if (isBusy) return;
     isBusy = true;
     final barcodes = await barcodeScanner.processImage(inputImage);
     print('Found ${barcodes.length} barcodes');
+    printBarcodesCaptured(barcodes);
     if (inputImage.inputImageData?.size != null &&
         inputImage.inputImageData?.imageRotation != null) {
       final painter = BarcodeDetectorPainter(
-          barcodes,
-          inputImage.inputImageData!.size,
-          inputImage.inputImageData!.imageRotation);
+          barcodes, inputImage.inputImageData!.size, inputImage.inputImageData!.imageRotation);
       customPaint = CustomPaint(painter: painter);
     } else {
       customPaint = null;
@@ -49,6 +49,15 @@ class _BarcodeScannerViewState extends State<BarcodeScannerView> {
     isBusy = false;
     if (mounted) {
       setState(() {});
+    }
+  }
+
+  void printBarcodesCaptured(List<Barcode> barcodes) {
+    print("Codigos Capturados\n");
+
+    for (var barcode in barcodes) {
+      print("* ${barcode.value.displayValue}");
+      print("- Esta seria su ubicación  ${barcode.value.boundingBox!.center}");
     }
   }
 }
