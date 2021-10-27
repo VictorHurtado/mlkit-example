@@ -10,7 +10,7 @@ class BarcodeScannerView extends StatefulWidget {
 
 class _BarcodeScannerViewState extends State<BarcodeScannerView> {
   BarcodeScanner barcodeScanner = GoogleMlKit.vision.barcodeScanner();
-
+  List<String> mainCodes = [];
   bool isBusy = false;
   CustomPaint? customPaint;
 
@@ -32,11 +32,9 @@ class _BarcodeScannerViewState extends State<BarcodeScannerView> {
   }
 
   Future<void> processImage(InputImage inputImage) async {
-    print("entree");
     if (isBusy) return;
     isBusy = true;
     final barcodes = await barcodeScanner.processImage(inputImage);
-    print('Found ${barcodes.length} barcodes');
     printBarcodesCaptured(barcodes);
     if (inputImage.inputImageData?.size != null &&
         inputImage.inputImageData?.imageRotation != null) {
@@ -46,6 +44,7 @@ class _BarcodeScannerViewState extends State<BarcodeScannerView> {
     } else {
       customPaint = null;
     }
+
     isBusy = false;
     if (mounted) {
       setState(() {});
@@ -57,7 +56,15 @@ class _BarcodeScannerViewState extends State<BarcodeScannerView> {
 
     for (var barcode in barcodes) {
       print("* ${barcode.value.displayValue}");
-      print("- Esta seria su ubicación  ${barcode.value.boundingBox!.center}");
+      print("- Esta seria su ubicación  ${barcode.value.boundingBox!.center.dx}");
+      print("- Esta seria su ubicación  ${barcode.value.boundingBox!.center.dy}");
+      print("- Esta seria su ancho  ${barcode.value.boundingBox!.width}");
+      print("- Esta seria su alto  ${barcode.value.boundingBox!.height}");
+      print("- Esta seria su lado largo  ${barcode.value.boundingBox!.longestSide}");
+      print("- Esta seria su lado corto  ${barcode.value.boundingBox!.shortestSide}");
     }
+    print(mainCodes);
   }
+
+  void detectMainBarcodesCaptured() {}
 }

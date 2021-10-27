@@ -1,16 +1,9 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
-import 'package:google_ml_kit_example/NlpDetectorViews/entity_extraction_view.dart';
-import 'package:google_ml_kit_example/NlpDetectorViews/language_translator_view.dart';
-import 'package:google_ml_kit_example/NlpDetectorViews/smart_reply_view.dart';
-import 'package:google_ml_kit_example/VisionDetectorViews/object_detector_view.dart';
 
-import 'NlpDetectorViews/language_identifier_view.dart';
 import 'VisionDetectorViews/detector_views.dart';
 import 'package:flutter/material.dart';
-
-import 'VisionDetectorViews/text_detectorv2_view.dart';
 
 List<CameraDescription> cameras = [];
 
@@ -51,65 +44,10 @@ class Home extends StatelessWidget {
                     title: const Text("Vision"),
                     children: [
                       CustomCard(
-                        'Image Label Detector',
-                        ImageLabelView(),
-                        featureCompleted: true,
-                      ),
-                      CustomCard(
-                        'Face Detector',
-                        FaceDetectorView(),
-                        featureCompleted: true,
-                      ),
-                      CustomCard(
                         'Barcode Scanner',
                         BarcodeScannerView(),
                         featureCompleted: true,
                       ),
-                      CustomCard(
-                        'Pose Detector',
-                        PoseDetectorView(),
-                        featureCompleted: true,
-                      ),
-                      CustomCard(
-                        'Digital Ink Recogniser',
-                        DigitalInkView(),
-                        featureCompleted: true,
-                      ),
-                      CustomCard(
-                        'Text Detector',
-                        TextDetectorView(),
-                        featureCompleted: true,
-                      ),
-                      CustomCard(
-                        'Text Detector V2',
-                        TextDetectorV2View(),
-                      ),
-                      CustomCard(
-                        'Object Detector',
-                        ObjectDetectorView(),
-                      ),
-                      CustomCard(
-                        'Remote Model Manager',
-                        RemoteModelView(),
-                        featureCompleted: true,
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  ExpansionTile(
-                    title: const Text("Natural Language"),
-                    children: [
-                      CustomCard(
-                        'Language Identifier',
-                        LanguageIdentifierView(),
-                        featureCompleted: true,
-                      ),
-                      CustomCard(
-                          'Language Translator', LanguageTranslatorView()),
-                      CustomCard('Entity Extractor', EntityExtractionView()),
-                      CustomCard('Smart Reply', SmartReplyView())
                     ],
                   ),
                 ],
@@ -127,8 +65,7 @@ class CustomCard extends StatelessWidget {
   final Widget _viewPage;
   final bool featureCompleted;
 
-  const CustomCard(this._label, this._viewPage,
-      {this.featureCompleted = false});
+  const CustomCard(this._label, this._viewPage, {this.featureCompleted = false});
 
   @override
   Widget build(BuildContext context) {
@@ -143,12 +80,10 @@ class CustomCard extends StatelessWidget {
         ),
         onTap: () {
           if (Platform.isIOS && !featureCompleted) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: const Text(
-                    'This feature has not been implemented for iOS yet')));
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: const Text('This feature has not been implemented for iOS yet')));
           } else
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => _viewPage));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => _viewPage));
         },
       ),
     );

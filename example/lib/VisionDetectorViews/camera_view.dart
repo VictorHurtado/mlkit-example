@@ -197,8 +197,8 @@ class _CameraViewState extends State<CameraView> {
     final camera = cameras[_cameraIndex];
     _controller = CameraController(
       camera,
-      ResolutionPreset.low,
-      enableAudio: false,
+      ResolutionPreset.ultraHigh,
+      enableAudio: true,
     );
     _controller?.initialize().then((_) {
       if (!mounted) {
@@ -236,6 +236,7 @@ class _CameraViewState extends State<CameraView> {
       _image = File(pickedFile.path);
     });
     final inputImage = InputImage.fromFilePath(pickedFile.path);
+    print(inputImage.toString());
 
     widget.onImage(inputImage);
   }

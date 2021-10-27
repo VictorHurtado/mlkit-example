@@ -17,31 +17,24 @@ class BarcodeDetectorPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final Paint paint = Paint()
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 3.0
-      ..color = Colors.lightGreenAccent;
+      ..strokeWidth = 1.0
+      ..color = Colors.white;
 
-    final Paint background = Paint()..color = Color(0x99000000);
+    final Paint background = Paint()..color = Colors.white;
 
     for (final Barcode barcode in barcodes) {
       final ParagraphBuilder builder = ParagraphBuilder(
-        ParagraphStyle(
-            textAlign: TextAlign.left,
-            fontSize: 16,
-            textDirection: TextDirection.ltr),
+        ParagraphStyle(textAlign: TextAlign.left, fontSize: 13, textDirection: TextDirection.ltr),
       );
-      builder.pushStyle(
-          ui.TextStyle(color: Colors.lightGreenAccent, background: background));
+      builder.pushStyle(ui.TextStyle(color: Colors.black, background: background));
       builder.addText('${barcode.value.displayValue}');
       builder.pop();
 
-      final left = translateX(
-          barcode.value.boundingBox!.left, rotation, size, absoluteImageSize);
-      final top = translateY(
-          barcode.value.boundingBox!.top, rotation, size, absoluteImageSize);
-      final right = translateX(
-          barcode.value.boundingBox!.right, rotation, size, absoluteImageSize);
-      final bottom = translateY(
-          barcode.value.boundingBox!.bottom, rotation, size, absoluteImageSize);
+      final left = translateX(barcode.value.boundingBox!.left, rotation, size, absoluteImageSize);
+      final top = translateY(barcode.value.boundingBox!.top, rotation, size, absoluteImageSize);
+      final right = translateX(barcode.value.boundingBox!.right, rotation, size, absoluteImageSize);
+      final bottom =
+          translateY(barcode.value.boundingBox!.bottom, rotation, size, absoluteImageSize);
 
       canvas.drawParagraph(
         builder.build()
@@ -60,7 +53,6 @@ class BarcodeDetectorPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(BarcodeDetectorPainter oldDelegate) {
-    return oldDelegate.absoluteImageSize != absoluteImageSize ||
-        oldDelegate.barcodes != barcodes;
+    return oldDelegate.absoluteImageSize != absoluteImageSize || oldDelegate.barcodes != barcodes;
   }
 }
